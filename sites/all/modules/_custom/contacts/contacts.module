@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function contacts_theme() {
+    return array(
+        'contacts' => array(
+            'template' => 'templates/contact',
+        ),
+    );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function contacts_menu() {
+    $items['contacts'] = array(
+        'page callback' => 'contacts_page',
+        'access callback' => TRUE,
+    );
+
+    $items['3dtour'] = array(
+        'page callback' => 'contacts_3dtour',
+        'access callback' => TRUE,
+    );
+    return $items;
+}
+
+
+function contacts_3dtour(){
+    drupal_goto('sites/all/themes/idolgym/idol3/tour.html');
+}
+
+function contacts_page(){
+    $path = drupal_get_path('module', 'contacts');
+    drupal_add_css($path . "/css/contacts.css");
+    drupal_add_js($path . "/js/map.js");
+    $output = theme('contacts');
+    return $output;
+}
+
+function contacts_preprocess_page(&$vars, $hook) {
+    if(arg(0)=='contacts'){
+        $vars['title']=t('Контакты');
+
+    }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function contacts_block_info() {
+    $blocks = array();
+    $blocks['contact_block']['info'] = t('Yandex карта');
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function contacts_block_view($delta = '') {
+    $block = array();
+    switch ($delta) {
+        case 'contact_block':
+            // Contruct the block.
+            $block['subject'] = '';
+            $block['content'] = array(
+                '#markup' => '<div id="map" style="width: 100%; height: 500px"></div>',
+            );
+            break;
+    }
+    return $block;
+}

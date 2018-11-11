@@ -1,0 +1,56 @@
+<?php
+
+function front_theme(){
+    return array(
+        'advantages' => array(
+            'template' => 'templates/advantages'
+        ),
+        'front_contacts' => array(
+            'template' => 'templates/front_contacts'
+        ),
+        'reviews' => array(
+            'template' => 'templates/reviews'
+        )
+    );
+}
+
+function front_block_info(){
+    $blocks = array();
+    $blocks['review'] = array(
+        'info' => t('Отзывы'),
+    );
+    $blocks['advantages'] = array(
+        'info' => t('Преимущества'),
+    );
+    $blocks['front_contacts'] = array(
+        'info' => t('Контакты на главной'),
+    );
+    return $blocks;
+}
+
+function front_block_view($delta=''){
+    switch($delta) {
+        case 'review' :
+            $block['content'] = front_review_block();
+            break;
+        case 'advantages' :
+            $block['content'] = front_advantages_block();
+            break;
+        case 'front_contacts' :
+            $block['content'] = front_front_contacts_block();
+            break;
+    }
+    return $block;
+}
+
+function front_review_block(){
+    return theme('reviews');
+}
+
+function front_advantages_block(){
+    return theme('advantages');
+}
+
+function front_front_contacts_block(){
+    return theme('front_contacts');
+}

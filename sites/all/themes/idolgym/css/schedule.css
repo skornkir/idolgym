@@ -1,0 +1,119 @@
+.timetable{
+    border-collapse: separate !important;
+    border-spacing: 6px !important;
+    /*border: 1px solid #eae7e7;*/
+}
+
+.timetable th{
+    background: none;
+    padding: 10px 15px 12px;
+    letter-spacing: normal;
+    font-style: normal;
+    line-height: normal;
+    color: #34495E;
+    border-bottom: 4px solid;
+    text-align: center;
+}
+
+/*.timetable tr:nth-child(2n) {
+    background: #f0f0f0;
+}*/
+
+.timetable td {
+    width: 150px;
+    vertical-align: middle;
+    border-radius: 4px;
+}
+
+.timetable .time{
+    vertical-align: middle;
+    text-align: center;
+}
+
+.timetable_cell{
+
+}
+
+.timetable_cell.fill{
+    cursor: pointer;
+    position: relative;
+    background-color: #fff;
+    padding: 8px 7px;
+    font-family: Graphik LCG;
+    text-decoration: none;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    height: 100%;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    transition: box-shadow .25s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    border-radius: 4px;
+    border: 2px solid #fff;
+}
+
+.timetable_cell .trainer{
+
+}
+
+.timetable_cell .direction{
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.15em;
+    color: #000;
+    padding-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.timetable_cell.fill.cf{
+
+}
+
+.timetable td.empty{
+    background-color: #eeeded;
+}
+
+.page-shedule #middle main {
+    width: 1180px;
+}
+
+.timetable_cell .trainer {
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    color: #505050;
+}
+
+.timetable td:first-child,
+.timetable th:first-child{
+    text-align: right;
+    width: 1%;
+    background: none;
+    padding-right: 9px;
+    border: none;
+}
+
+.page-shedule .layout-3col{
+    background-color: #f5f5f5;
+}
+
+.page-shedule .triangle{
+    border-color: transparent transparent #f5f5f5 transparent;
+}
+
+.page-shedule tbody:before {
+    content: "-";
+    display: block;
+    line-height: 0px;
+    color: transparent;
+}
+
+.timetable_cell.fill:hover{
+    border: 2px solid #ea5b0c;
+   /* background: rgba(200,200,200,0.5);*/
+}

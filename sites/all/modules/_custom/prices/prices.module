@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function prices_theme() {
+    return array(
+        'prices' => array(
+            'template' => 'templates/price',
+            'variables' => array('club' => 0, 'block' => 'block_7'),
+        ),
+    );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function prices_menu() {
+    $items['price/nagatino'] = array(
+        'page callback' => 'prices_nagatino_page',
+        'access callback' => TRUE,
+    );
+
+    $items['price/lavochkina'] = array(
+        'page callback' => 'prices_lavochkina_page',
+        'access callback' => TRUE,
+    );
+
+    return $items;
+}
+
+function prices_page(){
+    $path = drupal_get_path('module', 'prices');
+    drupal_add_js($path . "/js/price.js");
+    drupal_add_css($path . "/css/price.css");
+    $output = theme('prices');
+    return $output;
+}
+
+function prices_lavochkina_page(){
+    $path = drupal_get_path('module', 'prices');
+    drupal_add_js($path . "/js/price.js");
+    drupal_add_css($path . "/css/price.css");
+    $lavochkina_tid = 38;
+    $output = theme('prices', array('club' => $lavochkina_tid));
+    return $output;
+}
+
+function prices_nagatino_page(){
+    $path = drupal_get_path('module', 'prices');
+    drupal_add_js($path . "/js/price.js");
+    drupal_add_css($path . "/css/price.css");
+    $nagatino_tid = 37;
+    $output = theme('prices', array('club' => $nagatino_tid));
+    return $output;
+}
+
+function prices_preprocess_page(&$vars, $hook) {
+    if(arg(0)=='price'){
+        $vars['title']=t('Цены');
+
+    }
+}

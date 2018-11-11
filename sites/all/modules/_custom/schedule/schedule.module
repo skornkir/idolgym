@@ -1,0 +1,192 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function schedule_theme() {
+    return array(
+
+        'schedule_filter' => array(
+            'template' => 'templates/schedule_filter',
+            'variables' => array('filters' => array(), 'data' => array())
+         ),
+
+        'schedule' => array(
+            'template' => 'templates/schedule',
+            'variables' => array('full_timetable' => array(), 'club_tid' => '')
+        ),
+
+        'schedule_modal' => array(
+            'template' => 'templates/schedule_modal',
+            'variables' => array('data' => array())
+        ),
+    );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function schedule_menu() {
+
+    $items['shedule/nagatino'] = array(
+        'title' => 'Расписание',
+        'page callback' => 'shedule_nangatino_page',
+        'access callback' => TRUE,
+    );
+
+     $items['shedule/lavochkina'] = array(
+         'title' => 'Расписание',
+         'page callback' => 'shedule_lavochkina_page',
+         'access callback' => TRUE,
+     );
+
+    $items['schedule_refresh'] = array(
+        'page callback' => 'shedule_refresh',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+
+    $items['schedule_modal_refresh'] = array(
+        'page callback' => 'schedule_modal_refresh',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+
+    return $items;
+}
+
+function schedule_modal_refresh(){
+    $trainer = node_load($_POST['trainer']);
+    $direction = taxonomy_term_load($_POST['direction']);
+    $url = file_create_url($trainer->field_image['und'][0]['uri']);
+    $data = array(
+        'trainer_title' => $trainer->title,
+        'trainer_img' => $url,
+        'direction_level' => $direction->field_level['und'][0]['value'],
+        'direction_duration' => $direction->field_duration['und'][0]['value'],
+        'direction_title' => $direction->name,
+        'direction_body' =>  $direction->description,
+    );
+    $output = theme('schedule_modal', array('data' => $data));
+    drupal_json_output(array('message' => 'YES', 'output' => $output));
+}
+
+function shedule_refresh(){
+    $type = false;
+    $trainer = false;
+    if($_POST['type'] != 0){
+        $type = $_POST['type'];
+    }
+    if($_POST['trainer'] != 0){
+        $trainer = $_POST['trainer'];
+    }
+    ddl($_POST);
+    $full_timetable = schedute_get_timetable($_POST['club'], $trainer, $type );
+    $output = theme('schedule', array('full_timetable' => $full_timetable, 'club_tid' => $_POST['club']));
+    drupal_json_output(array('message' => 'YES', 'data' => $output));
+   // drupal_json_output(array('message' => 'YES', 'data' => ""));
+}
+
+function schedute_get_timetable($club_tid, $trainer_tid = false,  $direction_tid = false){
+    $key_time = schedule_get_tids(5);
+    $key_trainer = schedule_get_nids('trainer');
+    $key_direction = schedule_get_tids(6);
+    $nids = $query = db_select('node', 'n')
+        ->condition('type', 'time_trainer')
+        ->fields('n')
+        ->execute()
+        ->fetchAll();
+
+    $timetable = array();
+    foreach ($nids as $nid){
+        $node = node_load($nid->nid);
+        $trainer = $key_trainer[$node->field_trainer['und'][0]['target_id']];
+        $time = $key_time[$node->field_time['und'][0]['tid']];
+        $weekend = $node->field_weekend['und'][0]['tid'];
+        $direction = $key_direction[$node->field_directions['und'][0]['tid']];
+        if($club_tid == $node->field_club['und'][0]['tid']){
+            if(($node->field_trainer['und'][0]['target_id'] == $trainer_tid || $trainer_tid == false) &&
+                ($node->field_directions['und'][0]['tid'] == $direction_tid || $direction_tid == false )){
+                ddl($node);
+                ddl($trainer_tid);
+                ddl($direction_tid);
+                $timetable[$time][$weekend] = array('trainer' => $trainer, 'class' => $direction, 'class_machine' => 'cf',
+                    'direction_id' => $node->field_directions['und'][0]['tid'],
+                    'trainer_id' => $node->field_trainer['und'][0]['target_id']);
+            }
+        }
+    }
+    $full_timetable = array();
+    foreach ($timetable as $time => $weekend){
+        for($i =1; $i <= 7; $i++ ){
+            if(isset($weekend[$i])){
+                $full_timetable[$time][$i] = $weekend[$i];
+            }
+            else{
+                $full_timetable[$time][$i] = array();
+            }
+        }
+    }
+    return $full_timetable;
+}
+
+function shedule_nangatino_page(){
+    $path = drupal_get_path('module', 'schedule');
+    drupal_add_js($path . "/js/schedule.js");
+    $full_timetable = schedute_get_timetable(37);
+    $filters = schedule_get_tids(6);
+    $data['trainers'] = schedule_get_nids('trainer');
+    $data['directions'] = $filters;
+    $output = theme('schedule_filter', array('filters' => $filters, 'data' => $data));
+    $output .= "<div class='schedule-wrapper'>";
+    $output .= theme('schedule', array('full_timetable' => $full_timetable, 'club_tid' => 37));
+    $output .= "</div>";
+    return $output;
+}
+
+function shedule_lavochkina_page(){
+    $path = drupal_get_path('module', 'schedule');
+    drupal_add_js($path . "/js/schedule.js");
+    $full_timetable = schedute_get_timetable(38);
+    $filters = schedule_get_tids(6);
+    $data['trainers'] = schedule_get_nids('trainer');
+    $data['directions'] = $filters;
+    $output = theme('schedule_filter', array('filters' => $filters, 'data' => $data));
+    $output .= "<div class='schedule-wrapper'>";
+    $output .= theme('schedule', array('full_timetable' => $full_timetable, 'club_tid' => 37));
+    $output .= "</div>";
+    return $output;
+}
+
+function schedule_get_tids($vid){
+    $tids = db_select('taxonomy_term_data', 't')
+        ->fields('t', array('tid', 'name'))
+        ->condition('t.vid', $vid)
+        ->execute()
+        ->fetchAll();
+    $terms = array();
+    foreach ($tids as $tid){
+        $terms[$tid->tid] = $tid->name;
+    }
+    return $terms;
+}
+
+function schedule_get_nids($bundle){
+    $nids = db_select('node', 'n')
+        ->fields('n', array('nid', 'title', 'type'))
+        ->condition('n.type', $bundle)
+        ->execute()
+        ->fetchAll();
+    $nodes = array();
+    foreach ($nids as $nid){
+        $nodes[$nid->nid] = $nid->title;
+    }
+    return $nodes;
+}
+
+function schedule_preprocess_page(&$vars, $hook) {
+  /*  if(arg(0)=='contacts'){
+        $vars['title']=t('Контакты');
+
+    }*/
+}
