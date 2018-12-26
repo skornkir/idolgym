@@ -1,14 +1,3 @@
-<div class="club-link">
-    <a href="/price/nagatino" class="club nagatino <?php ($club == 37) ? print 'active' : '';?>">
-        Фитнес клуб Нагатинская
-    </a>
-    <a href="/price/lavochkina" class="club lavochkina <?php ($club == 38) ? print 'active' : '';?>">
-        Фитнес клуб Лавочкина
-    </a>
-</div>
-
-<div class="clear"></div>
-
 <ul class="tabs-price">
     <li class="tab-price">
         <a class="active"  id-block="seven_days">

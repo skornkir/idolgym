@@ -8,14 +8,13 @@ if(isset($row->field_field_image[0]['rendered']['#item']['uri'])) :
     <img src="<?=$url?>" />
     <?php /*print $output; */?>
 </div>
-<div class="wr-view">
+<!--<div class="wr-view">
     <div class="content-view">
         <div class="in-view pos-right">
-            <?php print $row->field_body[0]['rendered']['#markup']; ?>
-            <!--<div class="die-butt"><div class="buy-tarifs"><a class="inline cboxElement" href="#pop-order" tabindex="0">Узнать подробнее</a></div></div>-->
+            <?php /*print $row->field_body[0]['rendered']['#markup']; */?>
         </div>
     </div>
-</div>
+</div>-->
 <?php else: ?>
     <div class="slideshow-image-block video">
        тут видео

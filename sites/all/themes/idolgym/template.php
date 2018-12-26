@@ -51,7 +51,49 @@ function idolgym_preprocess_html(&$variables, $hook) {
  *   The name of the template being rendered ("page" in this case.)
  */
 function idolgym_preprocess_page(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
+    $variables['clubs'] = idol_get_clubs();
+    if(!isset($_COOKIE['clubtid'])){
+        $term = taxonomy_term_load(37);
+        setcookie("clubtid",37);
+        setcookie("clubname",'Нагатино');
+        setcookie("clubphone",$term->field_phone['und'][0]['value']);
+        setcookie("clubvk",$term->field_vkfield['und'][0]['value']);
+        setcookie("clubinsta",$term->field_instagram1['und'][0]['value']);
+        setcookie("clubfb",$term->field_facebook1['und'][0]['value']);
+    }
+    $path = drupal_get_path('theme', 'idolgym') . "/js/idolvue.js";
+    drupal_add_js($path);
+
+    $settings = array(
+        'clubs' => idol_get_clubs(),
+        'current_club_tid' => $_COOKIE['clubtid'],
+        'current_club_name' => $_COOKIE['clubname'],
+        'current_club_phone' => $_COOKIE['clubphone'],
+        'current_club_vk' => $_COOKIE['clubvk'],
+        'current_club_insta' => $_COOKIE['clubinsta'],
+        'current_club_fb' => $_COOKIE['clubfb'],
+    );
+    ddl($settings);
+    drupal_add_js($settings, 'setting');
+}
+
+function idol_get_clubs(){
+    $vid = 8;
+    $tids_club = array_keys(schedule_get_tids($vid));
+    $clubs = array();
+    foreach ($tids_club as $tid){
+        $term = taxonomy_term_load($tid);
+        $clubs[$tid] = array(
+            'id' => $tid,
+            'name' => $term->name,
+            'address' => $term->field_city['und'][0]['value'],
+            'phone' => $term->field_phone['und'][0]['value'],
+            'vk' => $term->field_vkfield['und'][0]['value'],
+            'insta' => $term->field_instagram1['und'][0]['value'],
+            'fb' => $term->field_facebook1['und'][0]['value'],
+        );
+    }
+    return $clubs;
 }
 
 /**

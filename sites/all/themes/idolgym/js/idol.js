@@ -8,6 +8,26 @@
                 allowClear: true
             });
 
+            /*$('.club-modal .club').click(function (e) {
+                var tid = $(this).attr('tid');
+                var title = $(this).find('.club-title').html();
+                $('.current-club').html(title);
+                $('.club-modal .close').click();
+                console.log(tid);
+                location.reload();
+                $.ajax({
+                    url: "ajax/club",
+                    type: "POST",
+                    data: {tid : tid, title : title},
+                    dataType: "json"
+                });
+            });*/
+
+            $("#filter-club").select2({
+                placeholder: "Выберите клуб",
+                allowClear: true
+            });
+
             $("#filter_trainer").select2({
                 placeholder: "Выберите тренера",
                 allowClear: true
@@ -15,22 +35,13 @@
 
             $('#filter-direction, #filter_trainer, #filter_direction').val(null).trigger('change');
 
-             $('.container-menu').click(function(x) {
+            $('.container-menu').click(function(x) {
                 $(this).toggleClass("change");
                 $('.mobile-nav-body').toggleClass("active")
             });
 
             $('.mobile-nav-body #block-system-main-menu > .menu > li > span').click(function (e) {
                $(this).parent().toggleClass('active');
-            });
-
-            $('.filter-trainers #filter-club').change(function (e) {
-                if($(this).val() == 1){
-                    window.location.href = "/trainers/nagatinskay";
-                }
-                if($(this).val() == 2){
-                    window.location.href = "/trainers/lavochkina";
-                }
             });
 
             $('.filter-trainers #filter-direction').change(function (e) {
@@ -93,12 +104,20 @@
                     }
                 });
 
+
                 resizeClubs();
 
                 $('.scrollup').click(function(){
                     $("html, body").animate({ scrollTop: 0 }, 600);
                     return false;
                 });
+
+
+                /*$('.view-news view-id-news.view-display-id-page').masonry({
+                        itemSelector: '.views-row',
+                        columnWidth: '.views-row'
+                    }
+                );*/
             });
         }
     };

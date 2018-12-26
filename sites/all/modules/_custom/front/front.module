@@ -10,6 +10,9 @@ function front_theme(){
         ),
         'reviews' => array(
             'template' => 'templates/reviews'
+        ),
+        'slider' => array(
+            'template' => 'templates/slider'
         )
     );
 }
@@ -25,6 +28,9 @@ function front_block_info(){
     $blocks['front_contacts'] = array(
         'info' => t('Контакты на главной'),
     );
+    $blocks['slider'] = array(
+        'info' => t('Слайдер на главной'),
+    );
     return $blocks;
 }
 
@@ -39,8 +45,15 @@ function front_block_view($delta=''){
         case 'front_contacts' :
             $block['content'] = front_front_contacts_block();
             break;
+        case 'slider' :
+            $block['content'] = front_slider_block();
+            break;
     }
     return $block;
+}
+
+function front_slider_block(){
+    return theme('slider');
 }
 
 function front_review_block(){

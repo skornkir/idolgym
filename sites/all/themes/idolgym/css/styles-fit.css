@@ -2707,13 +2707,7 @@ button {
 /*	3.	Header + Centered + Right + Fixed Versions */
 /*-------------------------------------------------------------------------*/
 /***************** Header ******************/
-#header {
-    width: 100%;
-    position: absolute;
-    z-index: 99;
-    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-}
+
 /***************** Header Top ******************/
 .header_top {
     outline: none;

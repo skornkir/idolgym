@@ -41,6 +41,18 @@
 
 @media only screen and (max-width: 920px) {
 
+    .view-news .views-row .views-field-title a{
+        height: 80px;
+    }
+
+    .view-news .views-row:nth-child(3n){
+        margin-right: 0;
+    }
+
+    .view-news .views-row:nth-child(4n){
+        margin-right: 20px;
+    }
+
     .node-type-news #page.fixed_header #middle {
          padding-top: 50px;
     }
@@ -78,15 +90,6 @@
         position: fixed;
     }
 
-    .header_mid div.logo_wrap {
-        float: none;
-        width: 80px;
-        height: 40px;
-        margin-top: 0px;
-        margin-bottom: 0px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
 
     #header{
         position: fixed;
@@ -111,6 +114,10 @@
 
     .view-trainers .views-row:nth-child(3n){
         margin-right: 0;
+    }
+
+    .view-trainers .views-row:nth-child(4n) {
+        margin-right: 20px;
     }
 
     .view-news .views-row:nth-child(3n){
@@ -407,7 +414,7 @@
     }
 
     .header_mid div.logo_wrap{
-        float: none;
+        float: left;
         /* width: 100px;
          margin: 0 auto;*/
     }
@@ -539,6 +546,22 @@
         margin-bottom: 20px;
     }
 
+    .view-news .views-row:nth-child(3n){
+        margin-right: 20px;
+    }
+
+    .view-news .views-row:nth-child(4n){
+        margin-right: 0;
+    }
+
+    .view-news .views-row:nth-child(2n){
+        margin-right: 0;
+    }
+
+    .view-news .views-row:nth-child(4n){
+        margin-right: 20px;
+    }
+
     .view-trainers .views-row:nth-child(3n){
         margin-right: 28px;
     }
@@ -554,6 +577,10 @@
 
     .view-news .views-row {
         width: 45%;
+    }
+
+    .view-news.view-display-id-page .views-row:nth-child(3n){
+        display: block;
     }
 
     .view-news .views-row:nth-child(3n){
@@ -792,11 +819,12 @@
     .trainer-single .title{
         font-family: Roboto;
         color: #fff;
-        line-height: 20px;
+        line-height: 23px;
         font-weight: bold;
         text-transform: uppercase;
         padding-left: 20px;
         padding-top: 50px;
+        font-size: 16px;
     }
 
     .trainer-single .directions{

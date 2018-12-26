@@ -16,42 +16,38 @@ function prices_theme() {
  * Implements hook_menu().
  */
 function prices_menu() {
-    $items['price/nagatino'] = array(
+    $items['price'] = array(
         'page callback' => 'prices_nagatino_page',
         'access callback' => TRUE,
     );
 
-    $items['price/lavochkina'] = array(
-        'page callback' => 'prices_lavochkina_page',
+    $items['price'] = array(
+        'page callback' => 'prices_nagatino_page',
         'access callback' => TRUE,
+    );
+
+    $items['ajax/prices/%'] = array(
+        'page callback' => 'prices_get_club',
+        'page arguments' => array(2),
+        'access callback' => TRUE,
+        'access arguments' => true,
     );
 
     return $items;
 }
 
-function prices_page(){
-    $path = drupal_get_path('module', 'prices');
-    drupal_add_js($path . "/js/price.js");
-    drupal_add_css($path . "/css/price.css");
-    $output = theme('prices');
-    return $output;
-}
-
-function prices_lavochkina_page(){
-    $path = drupal_get_path('module', 'prices');
-    drupal_add_js($path . "/js/price.js");
-    drupal_add_css($path . "/css/price.css");
-    $lavochkina_tid = 38;
-    $output = theme('prices', array('club' => $lavochkina_tid));
-    return $output;
+function prices_get_club($id){
+    $template = theme('prices', array('club' => $id));
+    drupal_json_output(array('template' => $template));
 }
 
 function prices_nagatino_page(){
     $path = drupal_get_path('module', 'prices');
     drupal_add_js($path . "/js/price.js");
     drupal_add_css($path . "/css/price.css");
-    $nagatino_tid = 37;
-    $output = theme('prices', array('club' => $nagatino_tid));
+    $output = "<div id='wrapper-prices'>";
+        $output .= theme('prices', array('club' => $_COOKIE['clubtid']));
+    $output .= '</div>';
     return $output;
 }
 

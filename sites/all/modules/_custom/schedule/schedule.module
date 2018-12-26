@@ -8,7 +8,7 @@ function schedule_theme() {
 
         'schedule_filter' => array(
             'template' => 'templates/schedule_filter',
-            'variables' => array('filters' => array(), 'data' => array())
+            'variables' => array('filters' => array(), 'data' => array(), 'club_tid' => false)
          ),
 
         'schedule' => array(
@@ -28,10 +28,17 @@ function schedule_theme() {
  */
 function schedule_menu() {
 
-    $items['shedule/nagatino'] = array(
+    $items['shedule'] = array(
         'title' => 'Расписание',
         'page callback' => 'shedule_nangatino_page',
         'access callback' => TRUE,
+    );
+
+    $items['ajax/shedule/%'] = array(
+        'page callback' => 'shedule_get_club',
+        'page arguments' => array(2),
+        'access callback' => TRUE,
+        'access arguments' => true,
     );
 
      $items['shedule/lavochkina'] = array(
@@ -46,13 +53,24 @@ function schedule_menu() {
         'type' => MENU_CALLBACK,
     );
 
-    $items['schedule_modal_refresh'] = array(
-        'page callback' => 'schedule_modal_refresh',
+    $items['ajax/club'] = array(
+        'page callback' => 'schedule_ajax_choose_club',
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
 
     return $items;
+}
+
+function schedule_ajax_choose_club(){
+    $json_callback  = file_get_contents("php://input");
+    $json = json_decode($json_callback, true);
+    $term = taxonomy_term_load($json['tid']);
+    setcookie("club_tid", $json['tid']);
+    setcookie("club_name", $term->name);
+    drupal_json_output(array('message' => 'OK'));
+    ddl('schedule_ajax_choose_club');
+    ddl($_COOKIE);
 }
 
 function schedule_modal_refresh(){
@@ -80,7 +98,6 @@ function shedule_refresh(){
     if($_POST['trainer'] != 0){
         $trainer = $_POST['trainer'];
     }
-    ddl($_POST);
     $full_timetable = schedute_get_timetable($_POST['club'], $trainer, $type );
     $output = theme('schedule', array('full_timetable' => $full_timetable, 'club_tid' => $_POST['club']));
     drupal_json_output(array('message' => 'YES', 'data' => $output));
@@ -107,9 +124,6 @@ function schedute_get_timetable($club_tid, $trainer_tid = false,  $direction_tid
         if($club_tid == $node->field_club['und'][0]['tid']){
             if(($node->field_trainer['und'][0]['target_id'] == $trainer_tid || $trainer_tid == false) &&
                 ($node->field_directions['und'][0]['tid'] == $direction_tid || $direction_tid == false )){
-                ddl($node);
-                ddl($trainer_tid);
-                ddl($direction_tid);
                 $timetable[$time][$weekend] = array('trainer' => $trainer, 'class' => $direction, 'class_machine' => 'cf',
                     'direction_id' => $node->field_directions['und'][0]['tid'],
                     'trainer_id' => $node->field_trainer['und'][0]['target_id']);
@@ -130,16 +144,27 @@ function schedute_get_timetable($club_tid, $trainer_tid = false,  $direction_tid
     return $full_timetable;
 }
 
+function shedule_get_club($club_tid){
+    ddl($club_tid);
+    $full_timetable = schedute_get_timetable($club_tid);
+    $template = theme('schedule', array('full_timetable' => $full_timetable, 'club_tid' => $club_tid));
+    ddl($template);
+    drupal_json_output(array('template' => $template));
+}
+
 function shedule_nangatino_page(){
     $path = drupal_get_path('module', 'schedule');
     drupal_add_js($path . "/js/schedule.js");
-    $full_timetable = schedute_get_timetable(37);
+    $club_tid = $_COOKIE['clubtid'];
+    $full_timetable = schedute_get_timetable($club_tid);
     $filters = schedule_get_tids(6);
+
     $data['trainers'] = schedule_get_nids('trainer');
     $data['directions'] = $filters;
-    $output = theme('schedule_filter', array('filters' => $filters, 'data' => $data));
+    $data['clubs'] = idol_get_clubs();
+    $output = theme('schedule_filter', array('filters' => $filters, 'data' => $data, 'club_tid' => $club_tid));
     $output .= "<div class='schedule-wrapper'>";
-    $output .= theme('schedule', array('full_timetable' => $full_timetable, 'club_tid' => 37));
+     $output .= theme('schedule', array('full_timetable' => $full_timetable, 'club_tid' => $club_tid));
     $output .= "</div>";
     return $output;
 }

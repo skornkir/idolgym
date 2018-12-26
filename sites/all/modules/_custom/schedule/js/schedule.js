@@ -3,7 +3,6 @@
     Drupal.behaviors.schedule = {
         attach: function (context, settings) {
 
-
             $('#filter_direction').change(function (e) {
                 var type = $(this).val();
                 var club = $('.events').attr('club');
@@ -42,8 +41,6 @@
                 })
             });
 
-
-
             $('#filter_club').change(function (e) {
                 console.log('club');
                 var club = $(this).val();
@@ -75,7 +72,8 @@
                 })
             });
 
-            $('.schedule-link').click(function (e) {
+            $('body').on('click', '.schedule-link', function (e) {
+                console.log('this');
                 var direction = $(this).attr('direction_id');
                 var trainer = $(this).attr('trainer_id');
                 var trainer = $(this).attr('trainer_id');
@@ -93,7 +91,7 @@
                     'error':function(jqXHR,textStatus,errorThrown ){},
                 })
 
-            })
+            });
 
             $('.time-day').click(function (e) {
                 var direction = $(this).attr('direction_id');

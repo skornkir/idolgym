@@ -1,1 +1,45 @@
 <?php
+
+function trainers_theme() {
+    return array(
+        'trainers' => array(
+            'template' => 'templates/trainers',
+            'variables' => array('data' => '')
+        ),
+    );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function trainers_menu() {
+
+    $items['trainers'] = array(
+        'title' => 'Тренера',
+        'page callback' => 'trainers_page',
+        'access callback' => TRUE,
+    );
+
+    $items['ajax/trainers/%'] = array(
+        'page callback' => 'trainers_get_clubtrainers',
+        'page arguments' => array(2),
+        'access callback' => TRUE,
+        'access arguments' => true,
+    );
+
+    return $items;
+}
+
+function trainers_get_clubtrainers($id){
+    $template = theme('trainers', array('data' => array('club_tid' => $id)));
+    drupal_json_output(array('template' => $template));
+}
+
+function trainers_page(){
+    ddl('trainers_page');
+    ddl($_COOKIE);
+    $output = "<div id='wrapper-trainers'>";
+    $output .= theme('trainers', array('data' => array('club_tid' => $_COOKIE['clubtid'])));
+    $output .= '</div>';
+    return $output;
+}

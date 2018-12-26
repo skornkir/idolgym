@@ -1,3 +1,6 @@
 name = Trainers
-description =
+description = ""
 core = 7.x
+version = "7.x-3.0-rc5"
+core = "7.x"
+datestamp = "1419029284"

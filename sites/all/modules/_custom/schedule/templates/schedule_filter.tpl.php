@@ -1,15 +1,7 @@
-<div class="club-link">
-    <a href="/shedule/nagatino" class="club nagatino <?php  (arg(1) == 'nagatino') ? print 'active' : '';?>">
-        Фитнес клуб Нагатинская
-    </a>
-    <a href="/shedule/lavochkina" class="club lavochkina <?php (arg(1) == 'lavochkina') ? print 'active' : '';?>">
-        Фитнес клуб Лавочкина
-    </a>
-</div>
 <div class="clear"></div>
 <?
-    $trainer_options = schedule_get_nids('trainer');
-    $direction_options = schedule_get_tids(6);
+$trainer_options = schedule_get_nids('trainer');
+$direction_options = schedule_get_tids(6);
 ?>
 <div class="schedule-filter">
     <div class="onehalf">

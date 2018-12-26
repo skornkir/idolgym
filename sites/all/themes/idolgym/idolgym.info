@@ -77,7 +77,7 @@ stylesheets[all][] = css/swiper.min.css
 ;scripts[] = js/script.js
 scripts[] = js/idol.js
 scripts[] = js/swiper.min.js
-
+scripts[] = js/Cookies.js
 
 
 ; This section lists the regions defined in Zen's default page.tpl.php and

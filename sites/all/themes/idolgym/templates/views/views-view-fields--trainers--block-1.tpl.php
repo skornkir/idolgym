@@ -1,14 +1,17 @@
-
 <div class="trainer-single">
-    <div class="left">
-        <div class="title">
-            <?php print $fields['title']->raw; ?>
+        <div class="left">
+            <a href="/node/<?php print  $row->nid; ?>">
+                <div class="title">
+                    <?php print $fields['title']->raw; ?>
+                </div>
+                <div class="directions">
+                    Персональный тренер
+                </div>
+            </a>
         </div>
-        <div class="directions">
-            Персональный тренер
+    <a href="/node/<?php print  $row->nid; ?>">
+        <div class="right">
+            <?php print $fields['field_image']->content; ?>
         </div>
-    </div>
-    <div class="right">
-        <?php print $fields['field_image']->content; ?>
-    </div>
+    </a>
 </div>

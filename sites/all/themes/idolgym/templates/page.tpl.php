@@ -21,71 +21,72 @@ function isMobile() {
         </div>
         <div class="mobile-nav-body" >
             <?php print render($page['navigation']); ?>
+            <div class="contact-info">
+                <div class="phone">+7 495 112 111</div>
+                <div class="social">
+                    <ul id="soc-net">
+                        <li>
+                            <a href="#" target="">
+                                <i class="fab fa-vk"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" target="">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <div class="phonecall">
-            <?php if(isMobile()): ?>
+     <!--   <div class="phonecall">
+            <?php /*if(isMobile()): */?>
                 <a href="tel:8-495-555-1231">
                     <i class="fas fa-phone"></i>
                 </a>
-            <?php else: ?>
-                <a href="#"  data-toggle="modal" data-target="#exampleModal">
+            <?php /*else: */?>
+                <a href="#"  data-toggle="modal" data-target="#">
                     <i class="fas fa-phone"></i>
                 </a>
-            <?php endif; ?>
-        </div>
+            <?php /*endif; */?>
+        </div>-->
         <header id="header">
             <div class="header_mid" >
                 <div class="header_mid_outer">
-                    <div class="header_mid_inner">
+                    <div class="header_mid_inner" id="header_mid_inner">
                         <div class="logo_wrap">
-                            <a href="/" title="Be Fit" class="logo">
+                            <a href="/" title="IdolGym" class="logo">
                                 <img src="/sites/all/themes/idolgym/images/logo.png" alt="Idol gym">
                                 <img class="logo_retina" src="http://be-fit.cmsmasters.net/wp-content/themes/be-fit/img/logo_retina.png" alt="Be Fit" width="117" height="51">
                             </a>
                         </div>
+                        <div class="seraparor-club"></div>
+                        <div id="choose-club-wrapper" class="choose-club-wrapper" data-toggle="modal" data-target="#clubModal">
+                            <div class="current-club">{{club.name}}</div>
+                            <div class="choose-club">Выберите клуб   <i class="fas fa-angle-down"></i></div>
+                        </div>
                         <div class="slogan_wrap">
                             <div class="slogan_wrap_inner">
-                                <div class="slogan_wrap_text">
-                                    <div class="cmsmasters-icon-phone-1">
-                                        <div class="menu-icon">
-                                            <i class="fas fa-phone"></i>
-                                        </div>
-                                        <div class="slogan_text_inner">
-                                            <h4>Телефон</h4>
-                                            <small>+7 495 120-08-06</small>
-                                        </div>
-                                    </div>
-                                    <div class="cmsmasters-icon-clock-1">
-                                        <div class="menu-icon">
-                                            <i class="fas fa-clock"></i>
-                                        </div>
-                                        <div class="slogan_text_inner">
-                                            <h4>Соц. сети</h4>
-                                            <ul id="soc-net">
-                                                <li>
-                                                    <a href="#" target="">
-                                                        <i class="fab fa-vk"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" target="">
-                                                        <i class="fab fa-instagram"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" target="">
-                                                        <i class="fab fa-youtube"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" target="">
-                                                        <i class="fab fa-facebook-f"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <div class="slogan_text_inner">
+                                   {{club.phone}}
+                                </div>
+                                <div class="social-header">
+                                    <ul>
+                                        <li><a :href="club.vk">  <i class="fab fa-vk"></i></a> </li>
+                                        <li><a :href="club.insta">  <i class="fab fa-instagram"></i></a> </li>
+                                        <li><a :href="club.fb">  <i class="fab fa-facebook-f"></i></a> </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -178,34 +179,6 @@ function isMobile() {
         <div class="prefooter">
             <?php print render($page['pre_footer']); ?>
         </div>
-<!--        <div id="bottom" class="cmsmasters_color_scheme_bottom">
-            <div class="bottom_bg">
-                <div class="bottom_outer">
-                    <div class="bottom_inner sidebar_layout_14141414">
-                        <aside id="text-5" class="widget widget_text">
-                            <div class="textwidget mini-logo"><p><img src="/sites/all/themes/idolgym/images/logo.png"
-                                                                      alt="Idol gym"></p>
-                            </div>
-                        </aside>
-                        <aside id="text-2" class="widget widget_text"><h3 class="widgettitle">Контакты</h3>
-                            <div class="textwidget"><span>info@fitness-club.com<br>123-123-1234</span></div>
-                        </aside>
-                        <aside id="text-3" class="widget widget_text">
-                            <h3 class="widgettitle">Адрес</h3>
-                            <div class="textwidget">
-                                <span>+7 495 120-08-06<br>ул. Нагатинская д. 1/33</span>
-                            </div>
-                        </aside>
-                        <aside id="text-4" class="widget widget_text">
-                            <h3 class="widgettitle">Время работы</h3>
-                            <div class="textwidget"><span>Пн-пт: 7:00-22:00<br>
-                                                          Сб-вс: 9:00-17:00</span></div>
-                        </aside>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a href="javascript:void(0);" id="slide_top" class="cmsmasters_theme_icon_slide_top" style="display: none;"></a>-->
     </div>
 
     <footer id="footer" class="cmsmasters_color_scheme_footer cmsmasters_footer_small">
@@ -295,6 +268,26 @@ function isMobile() {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary">Заказать</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal club-modal fade" id="clubModal" tabindex="-1" role="dialog" aria-labelledby="clubModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Выберить клуб</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div v-for="club in clubs" class="club" :tid="club.tid" @click="onClickClub(club.id, club.name, club.phone, club.vk, club.insta, club.fb)">
+                        <div class="club-title">{{club.name}}</div>
+                        <div class="club-city">{{club.address}}</div>
+                    </div>
             </div>
         </div>
     </div>
